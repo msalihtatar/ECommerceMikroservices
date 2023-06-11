@@ -7,18 +7,18 @@ namespace Core.Dtos
 {
     public class Response<T> 
     {
-        public T Date { get; private set; }
+        public T Data { get; set; }
         [JsonIgnore]
-        public int StatusCode { get; private set; }
+        public int StatusCode { get; set; }
         [JsonIgnore]
-        public bool IsSuccess { get; private set; }
+        public bool IsSuccess { get; set; }
         public List<string> ErrorMsg { get; set; }
 
         public static Response<T> Success(T data, int StatusCode)
         {
             return new Response<T>
             {
-                Date = data,
+                Data = data,
                 StatusCode = StatusCode,
                 IsSuccess = true
             };
@@ -28,7 +28,7 @@ namespace Core.Dtos
         {
             return new Response<T>
             {
-                Date = default(T),
+                Data = default(T),
                 StatusCode = StatusCode,
                 IsSuccess = true
             };

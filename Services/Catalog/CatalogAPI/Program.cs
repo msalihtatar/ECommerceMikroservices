@@ -1,3 +1,4 @@
+using CatalogAPI.Dtos;
 using CatalogAPI.Services;
 using CatalogAPI.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -37,6 +38,19 @@ builder.Services.AddSingleton<IDatabaseSettings>(sp =>
 });
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+
+    var categoryService = serviceProvider.GetRequiredService<ICategoryService>();
+
+    if (!categoryService.GetAllAsync().Result.Data.Any())
+    {
+        categoryService.CreateAsync(new CategoryCreateDto { Name = "Pantolon"}).Wait();
+        categoryService.CreateAsync(new CategoryCreateDto { Name = "Kýrtasiye Malzemesi" }).Wait();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

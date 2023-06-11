@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "http": {
+    "BasketAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

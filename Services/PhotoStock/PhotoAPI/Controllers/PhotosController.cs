@@ -14,14 +14,14 @@ namespace PhotoAPI.Controllers
         {
             if (photo != null && photo.Length > 0)
             {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", photo.FileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/photos", photo.FileName);
 
                 using (var stream = new FileStream(path, FileMode.Create))
                 {
                     await photo.CopyToAsync(stream, cancellationToken);
                 }
 
-                var returnPath = "images/" + photo.FileName;
+                var returnPath = "photos/" + photo.FileName;
 
                 var photoDto = new PhotoDto() { URL = returnPath };
 
@@ -31,10 +31,10 @@ namespace PhotoAPI.Controllers
             return CreateActionResultInstance(Response<PhotoDto>.Fail("Photo is null or empty.", 400));
         }
 
-        [HttpGet]
+        [HttpDelete]
         public IActionResult PhotoDelete(string photoName)
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", photoName);
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/photos", photoName);
 
             if (!System.IO.File.Exists(path))
             {

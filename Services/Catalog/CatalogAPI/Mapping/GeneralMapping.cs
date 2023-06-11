@@ -10,7 +10,7 @@ namespace CatalogAPI.Mapping
         {
             CreateMap<Product, ProductDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
-            CreateMap<Feature, FeatureDto>().ReverseMap();
+            //CreateMap<Feature, FeatureDto>().ReverseMap();
 
             CreateMap<Product, ProductCreateDto>().ReverseMap();
             CreateMap<Product, ProductUpdateDto>().ReverseMap();

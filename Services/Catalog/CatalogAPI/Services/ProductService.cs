@@ -30,21 +30,29 @@ namespace CatalogAPI.Services
 
         public async Task<Response<List<ProductDto>>> GetAllAsync()
         {
-            var Products = await _ProductCollection.Find(Product => true).ToListAsync();
-
-            if (Products.Any())
+            try
             {
-                foreach (var Product in Products)
+                var Products = await _ProductCollection.Find(Product => true).ToListAsync();
+
+                if (Products.Any())
                 {
-                    Product.Category = await _categoryCollection.Find<Category>(x => x.Id == Product.CategoryId).FirstAsync();
+                    foreach (var Product in Products)
+                    {
+                        Product.Category = await _categoryCollection.Find<Category>(x => x.Id == Product.CategoryId).FirstAsync();
+                    }
                 }
-            }
-            else
-            {
-                Products = new List<Product>();
-            }
+                else
+                {
+                    Products = new List<Product>();
+                }
 
-            return Response<List<ProductDto>>.Success(_mapper.Map<List<ProductDto>>(Products), 200);
+                return Response<List<ProductDto>>.Success(_mapper.Map<List<ProductDto>>(Products), 200);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public async Task<Response<ProductDto>> GetByIdAsync(string id)
@@ -79,9 +87,9 @@ namespace CatalogAPI.Services
             return Response<List<ProductDto>>.Success(_mapper.Map<List<ProductDto>>(Products), 200);
         }
 
-        public async Task<Response<ProductDto>> CreateAsync(ProductCreateDto ProductCreateDto)
+        public async Task<Response<ProductDto>> CreateAsync(ProductCreateDto productCreateDto)
         {
-            var newProduct = _mapper.Map<Product>(ProductCreateDto);
+            var newProduct = _mapper.Map<Product>(productCreateDto);
 
             newProduct.CreatedTime = DateTime.Now;
             await _ProductCollection.InsertOneAsync(newProduct);
@@ -89,11 +97,11 @@ namespace CatalogAPI.Services
             return Response<ProductDto>.Success(_mapper.Map<ProductDto>(newProduct), 200);
         }
 
-        public async Task<Response<NoContent>> UpdateAsync(ProductUpdateDto ProductUpdateDto)
+        public async Task<Response<NoContent>> UpdateAsync(ProductUpdateDto productUpdateDto)
         {
-            var updateProduct = _mapper.Map<Product>(ProductUpdateDto);
+            var updateProduct = _mapper.Map<Product>(productUpdateDto);
 
-            var result = await _ProductCollection.FindOneAndReplaceAsync(x => x.Id == ProductUpdateDto.Id, updateProduct);
+            var result = await _ProductCollection.FindOneAndReplaceAsync(x => x.Id == productUpdateDto.Id, updateProduct);
 
             if (result == null)
             {

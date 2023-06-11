@@ -17,7 +17,7 @@ namespace CatalogAPI.Dtos
 
         public DateTime CreatedTime { get; set; }
 
-        public FeatureDto Feature { get; set; }
+        //public FeatureDto Feature { get; set; }
 
         public string CategoryId { get; set; }
 

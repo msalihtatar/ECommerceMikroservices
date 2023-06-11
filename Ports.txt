@@ -3,4 +3,8 @@ Services:
 	PhotoAPI => 5029
 	BasketAPI => 5030
 	DiscountAPI => 5031
+	OrderAPI => 5032
+	PaymentAPI => 5033
 IdentityAPI => 5001
+Gateway => 5000
+ECommerceWeb => 5010

@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "http": {
+    "CatalogAPI": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

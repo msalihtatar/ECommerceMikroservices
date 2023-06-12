@@ -40,6 +40,8 @@ namespace ECommerceWeb.Handlers
                 }
             }
 
+            var responseContent = await response.Content.ReadAsStringAsync();
+
             if (response.StatusCode == HttpStatusCode.Unauthorized)
             {
                 throw new UnAuthorizeException(); 

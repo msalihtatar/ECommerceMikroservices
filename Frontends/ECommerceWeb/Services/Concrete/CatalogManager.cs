@@ -2,6 +2,7 @@
 using ECommerceWeb.Helpers;
 using ECommerceWeb.Models;
 using ECommerceWeb.Services.Abstract;
+using System.Text.Json;
 
 namespace ECommerceWeb.Services.Concrete
 {
@@ -103,7 +104,16 @@ namespace ECommerceWeb.Services.Concrete
                 return null;
             }
 
-            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<ProductViewModel>>();
+            var json = await response.Content.ReadAsStringAsync();
+
+            //var responseSuccess = await response.Content.ReadFromJsonAsync<Response<ProductViewModel>>();
+
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true // Büyük-küçük harfi ignore etme ayarı
+            };
+
+            var responseSuccess = JsonSerializer.Deserialize<Response<ProductViewModel>>(json, options);
 
             responseSuccess.Data.StockPictureUrl = _photoHelper.GetPhotoStockUrl(responseSuccess.Data.Picture.Split("/").Last());
 

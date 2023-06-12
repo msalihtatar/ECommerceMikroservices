@@ -1,10 +1,11 @@
 using Core.Services;
+using ECommerceWeb.Extensions;
 using ECommerceWeb.Handlers;
 using ECommerceWeb.Helpers;
 using ECommerceWeb.Models;
-using ECommerceWeb.Services.Abstract;
-using ECommerceWeb.Services.Concrete;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using FluentValidation.AspNetCore;
+using ECommerceWeb.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,30 +18,12 @@ builder.Services.AddAccessTokenManagement();
 builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
 builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 
-var serviceApiSettings = builder.Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
-
 builder.Services.AddScoped<Core.Services.IIdentityService, IdentityService>();
 builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
 builder.Services.AddScoped<ClientCredentialTokenHandler>();
 builder.Services.AddSingleton<PhotoHelper>();
 
-builder.Services.AddHttpClient<ECommerceWeb.Services.Abstract.IIdentityService, IdentityManager>();
-builder.Services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
-
-builder.Services.AddHttpClient<ICatalogService, CatalogManager>(opt =>
-{
-    opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseURL}/{serviceApiSettings.Catalog.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IPhotoStockService, PhotoStockManager>(opt =>
-{
-    opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseURL}/{serviceApiSettings.PhotoStock.Path}");
-}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
-
-builder.Services.AddHttpClient<IUserService, UserManager>(opt =>
-{
-    opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseURL);
-}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+builder.Services.AddHttpClientServices(builder.Configuration);//Extension for HttpClient
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts => 
 {
@@ -51,6 +34,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 });
 
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddFluentValidationAutoValidation();
 
 var app = builder.Build();
 

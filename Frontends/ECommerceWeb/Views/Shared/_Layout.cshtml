@@ -21,11 +21,11 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Anasayfa</a>
                         </li>
-                        <li class="nav-item">
+                        @*<li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                        </li>*@
                     </ul>
                     @if (User.Identity.IsAuthenticated)
                     {
@@ -36,8 +36,8 @@
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <li><a class="dropdown-item" asp-controller="User" asp-action="Index">Profil</a></li>
-                                    @*<li><a class="dropdown-item" asp-controller="Order" asp-action="CheckoutHistory">Ödeme geçmişim</a></li>
-                                    <li><a class="dropdown-item" asp-controller="Basket" asp-action="Index">Sepet</a></li>*@
+                                    <li><a class="dropdown-item" asp-controller="Order" asp-action="CheckoutHistory">Satın Alma Geçmişim</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Basket" asp-action="Index">Sepetim</a></li>
                                     <li><a class="dropdown-item" asp-controller="Products" asp-action="Index">Ürünlerim</a></li>
                                     <li><a class="dropdown-item" asp-controller="Auth" asp-action="LogOut">Çıkış Yap</a></li>
                                 </ul>

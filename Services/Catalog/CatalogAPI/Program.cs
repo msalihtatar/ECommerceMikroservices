@@ -1,12 +1,26 @@
 using CatalogAPI.Dtos;
 using CatalogAPI.Services;
 using CatalogAPI.Settings;
+using Core.Messages;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddMassTransit(x =>
+{
+    x.UsingRabbitMq((context, configuration) =>
+    {
+        configuration.Host(builder.Configuration["RabbitMQUrl"], "/", host =>
+        {
+            host.Username("guest");
+            host.Password("guest");
+        });
+    });
+});
 
 // Add services to the container.
 

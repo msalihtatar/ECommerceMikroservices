@@ -20,13 +20,14 @@ namespace BasketAPI.Controllers
             _identityService = identityService;
         }
 
-        [HttpGet("getbasket")]
+        [HttpGet]
         public async Task<IActionResult> GetBasket() 
         {
-            return CreateActionResultInstance(await _basketService.GetBasket(_identityService.GetUserID));
+            var result = await _basketService.GetBasket(_identityService.GetUserID);
+            return CreateActionResultInstance(result);
         }
 
-        [HttpPost("saveorupdatebasket")]
+        [HttpPost]
         public async Task<IActionResult> SaveOrUpdateBasket(BasketDto basket)
         {
             basket.UserId = _identityService.GetUserID;
@@ -35,7 +36,7 @@ namespace BasketAPI.Controllers
             return CreateActionResultInstance(response);
         }
 
-        [HttpDelete("deletebasket")]
+        [HttpDelete]
         public async Task<IActionResult> DeleteBasket()
         {
             return CreateActionResultInstance(await _basketService.Delete(_identityService.GetUserID));

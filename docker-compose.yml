@@ -1,0 +1,30 @@
+version: '4.20'
+services: 
+  catalogdb:
+    image: mongo
+  basketdb:
+    image: redis
+  discountdb:
+    image: postgres
+  identitydb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+  orderdb:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+  rabbitmq:
+    image: rabbitmq:3.12.0-management
+  catalog.api:
+    image: catalog_api_image
+    build:
+      context: .
+      dockerfile: Services/Catalog/CatalogAPI/Dockerfile
+  identityserver.api:
+    image: identityserver_api_image
+    build:
+      context: .
+      dockerfile: IdentityServer/IdentityServer/Dockerfile
+volumes:
+  catalogdb_volume:
+  discount_volume:
+  identitydb_volume:
+  orderdb_volume:
+

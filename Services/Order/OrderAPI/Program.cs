@@ -12,7 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//RabbitMQ default olarak 5672 portundan ayaða kalkýyor, arayüzü 15672 portundan ayaða kalkýyor
+//RabbitMQ default olarak 5672 portundan ayaï¿½a kalkï¿½yor, arayï¿½zï¿½ 15672 portundan ayaï¿½a kalkï¿½yor
 builder.Services.AddMassTransit(x =>
 {
     x.UsingRabbitMq((context, configuration) =>
@@ -68,6 +68,13 @@ builder.Services.AddScoped<IIdentityService, IdentityService>();
 builder.Services.AddMediatR(typeof(CreateOrderCommandHandler).Assembly);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    var orderDbContext = serviceProvider.GetRequiredService<OrderDbContext>();
+    orderDbContext.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

@@ -61,8 +61,9 @@ using (var scope = app.Services.CreateScope())
 
     if (!categoryService.GetAllAsync().Result.Data.Any())
     {
-        categoryService.CreateAsync(new CategoryCreateDto { Name = "Pantolon"}).Wait();
+        categoryService.CreateAsync(new CategoryCreateDto { Name = "Kýyafet"}).Wait();
         categoryService.CreateAsync(new CategoryCreateDto { Name = "Kýrtasiye Malzemesi" }).Wait();
+        categoryService.CreateAsync(new CategoryCreateDto { Name = "Ayakkabý" }).Wait();
     }
 }
 

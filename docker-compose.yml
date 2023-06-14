@@ -22,6 +22,42 @@ services:
     build:
       context: .
       dockerfile: IdentityServer/IdentityServer/Dockerfile
+  basket.api:
+    image: basket_api_image
+    build:
+      context: .
+      dockerfile: Services/Basket/BasketAPI/Dockerfile
+  photo.api:
+    image: photo_api_image
+    build:
+      context: .
+      dockerfile: Services/PhotoStock/PhotoAPI/Dockerfile
+  discount.api:
+    image: discount_api_image
+    build:
+      context: .
+      dockerfile: Services/Discount/DiscountAPI/Dockerfile
+  payment.api:
+    image: payment_api_image
+    build:
+      context: .
+      dockerfile: Services/Payment/PaymentAPI/Dockerfile
+  order.api:
+    image: order_api_image
+    build:
+      context: .
+      dockerfile: Services/Order/OrderAPI/Dockerfile
+  gateway.api:
+    image: gateway_api_image
+    build:
+      context: .
+      dockerfile: Gateways/Gateway/Dockerfile
+  aspnetcoremvc.web:
+    image: aspnetcoremvc.web_image
+    build:
+      context: .
+      dockerfile: Frontends/ECommerceWeb/Dockerfile
+
 volumes:
   catalogdb_volume:
   discount_volume:
